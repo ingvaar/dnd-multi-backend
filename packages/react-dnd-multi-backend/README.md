@@ -4,9 +4,9 @@
 
 This project is a Drag'n'Drop backend compatible with [React DnD](https://github.com/react-dnd/react-dnd).
 It enables your application to use different DnD backends depending on the situation.
-You can either generate your own backend pipeline or use the default one (`HTML5toTouch`).
+You can either generate your own backend pipeline or use the recommended one (`HTML5toTouch`).
 
-[HTML5toTouch](src/HTML5toTouch.js) starts by using the [React DnD HTML5 Backend](https://react-dnd.github.io/react-dnd/docs/backends/html5), but switches to the [React DnD Touch Backend](https://react-dnd.github.io/react-dnd/docs/backends/touch) if a touch event is triggered.
+[HTML5toTouch](../rdnd-html5-to-touch/src/HTML5toTouch.js) starts by using the [React DnD HTML5 Backend](https://react-dnd.github.io/react-dnd/docs/backends/html5), but switches to the [React DnD Touch Backend](https://react-dnd.github.io/react-dnd/docs/backends/touch) if a touch event is triggered.
 You application can smoothly use the nice HTML5 compatible backend and fallback on the Touch one on mobile devices!
 
 Moreover, because some backends don't support preview, a `Preview` component has been added to make it easier to mock the Drag'n'Drop "ghost".
@@ -23,16 +23,22 @@ npm install react-dnd-multi-backend
 ```
 
 You can then `MultiBackend = require('react-dnd-multi-backend')` or `import MultiBackend from 'react-dnd-multi-backend'`.
-To get the `HTML5toTouch` pipeline, just require/import `react-dnd-multi-backend/dist/BUILD_TYPE/HTML5toTouch` (where `BUILD_TYPE` is either `cjs` for CommonJS or `esm` for ES Module).
+
+To get the `HTML5toTouch` pipeline, install the following package:
+
+```sh
+npm install rdnd-html5-to-touch
+```
+
+You can then `HTML5toTouch = require('rdnd-html5-to-touch')` or `import HTML5toTouch from 'rdnd-html5-to-touch'`.
 
 ### Browser Installation
 
 Use the minified UMD build in the `dist` folder: https://www.jsdelivr.com/package/npm/react-dnd-multi-backend?path=dist%2Fumd.
+`react-dnd-multi-backend.min.js` exports a global `window['react-dnd-multi-backend']` when imported as a `<script>` tag.
 
-`react-dnd-multi-backend.min.js` exports a global `window.ReactDnDMultiBackend` when imported as a `<script>` tag.
-
-If you want to use the `HTML5toTouch` pipeline, also include `HTML5toTouch.min.js`.
-It exports a global `window.HTML5toTouch` when imported as a `<script>` tag.
+If you want to use the `HTML5toTouch` pipeline, use the minified UMD build in the `dist` folder: https://www.jsdelivr.com/package/npm/rdnd-html5-to-touch?path=dist%2Fumd.
+`rdnd-html5-to-touch.min.js` exports a global `window['rdnd-html5-to-touch']` when imported as a `<script>` tag.
 This file also includes the `HTML5` and `Touch` backends, so no need to include them as well.
 
 
@@ -42,15 +48,12 @@ This file also includes the `HTML5` and `Touch` backends, so no need to include 
 
 You can use the `DndProvider` component the same way you do the one from `react-dnd` ([docs](https://react-dnd.github.io/react-dnd/docs/api/dnd-provider) for more information), at the difference that you don't need to specify `backend` as a prop, it is implied to be `MultiBackend`.
 
-You must pass a 'pipeline' to use as argument. This package includes `HTML5toTouch`, but you can write your own.
+You must pass a 'pipeline' to use as argument. You can use the recommended `rdnd-html5-to-touch`, but you can also write your own.
 Note that if you include this file, you will have to add `react-dnd-html5-backend` and `react-dnd-touch-backend` to your `package.json` `dependencies`.
 
 ```js
 import { DndProvider } from 'react-dnd-multi-backend';
-// Use `esm` or `cjs` depending on your build system
-import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch';
-import HTML5toTouch from 'react-dnd-multi-backend/dist/cjs/HTML5toTouch';
-// or any other pipeline
+import HTML5toTouch from 'rdnd-html5-to-touch'; // or any other pipeline
 ...
 const App = () => {
   return (
@@ -65,13 +68,13 @@ const App = () => {
 
 You can plug this backend in the `DragDropContext` the same way you do for any backend (e.g. `ReactDnDHTML5Backend`), you can see [the docs](https://react-dnd.github.io/react-dnd/docs/backends/html5) for more information.
 
-You must pass a 'pipeline' to use as argument. This package includes `HTML5toTouch`, but you can write your own.
+You must pass a 'pipeline' to use as argument. You can use the recommended `rdnd-html5-to-touch`, but you can also write your own.
 Note that if you include this file, you will have to add `react-dnd-html5-backend` and `react-dnd-touch-backend` to your `package.json` `dependencies`.
 
 ```js
 import { DndProvider } from 'react-dnd';
 import MultiBackend from 'react-dnd-multi-backend';
-import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch'; // or any other pipeline
+import HTML5toTouch from 'rdnd-html5-to-touch'; // or any other pipeline
 ...
 const App = () => {
   return (
@@ -357,6 +360,14 @@ Starting with `5.1.0`, `react-dnd-multi-backend` will export a new `DndProvider`
 Moreover, every backend in a pipeline will now need a new property called `id` and the library will warn if it isn't specified. The `MultiBackend` will try to guess it if possible, but that might fail and you will need to define them explicitly.
 
 Note that these aren't breaking changes, you can continue using the library as before.
+
+### Migrating from 6.0.x
+
+`HTML5toTouch` is now it's own package to make imports more straight-forward:
+ - no more `peerDependencies` on unused dependencies if you use another pipeline
+ - no need to worry about `esm` or `cjs` in the import path
+
+That means you will need to install the package separately as `react-dnd-multi-backend` won't be providing anymore (`npm install -S rdnd-html5-to-touch`).
 
 
 ## License

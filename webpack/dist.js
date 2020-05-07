@@ -5,18 +5,12 @@ module.exports = webpackMerge(commonConfig(), {
   entry: {
     'dnd-multi-backend': './packages/dnd-multi-backend/src/index.js',
     'react-dnd-multi-backend': './packages/react-dnd-multi-backend/src/index.js',
-    HTML5toTouch: './packages/react-dnd-multi-backend/src/HTML5toTouch.js',
+    'rdnd-html5-to-touch': './packages/rdnd-html5-to-touch/src/index.js',
     'react-dnd-preview': './packages/react-dnd-preview/src/index.js',
   },
   output: {
     path: `${__dirname}/..`,
-    filename: (chunkData) => {
-      let dir = '[name]';
-      if (chunkData.chunk.name === 'HTML5toTouch') {
-        dir = 'react-dnd-multi-backend';
-      }
-      return `packages/${dir}/dist/umd/[name].min.js`;
-    },
+    filename: 'packages/[name]/dist/umd/[name].min.js',
     libraryTarget: 'umd',
     library: '[name]',
   },

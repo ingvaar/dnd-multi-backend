@@ -1,0 +1,30 @@
+{
+  "name": "rdnd-html5-to-touch",
+  "version": "0.0.0",
+  "description": "Backend pipeline for react-dnd-multi-backend using HTML5Backend and TouchBackend",
+  "author": "Louis Brunner <louis.brunner.fr@gmail.com> (https://github.com/LouisBrunner)",
+  "license": "MIT",
+  "repository": "https://github.com/LouisBrunner/dnd-multi-backend/tree/master/packages/rdnd-html5-to-touch",
+  "homepage": "https://louisbrunner.github.io/dnd-multi-backend/packages/rdnd-html5-to-touch/",
+  "keywords": [
+    "react",
+    "dnd",
+    "drag",
+    "drop",
+    "html5",
+    "touch",
+    "react-dnd",
+    "dnd-multi-backend",
+    "react-dnd-multi-backend"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "dependencies": {
+    "react-dnd-html5-backend": "^10.0.2",
+    "react-dnd-touch-backend": "^10.0.2",
+    "dnd-multi-backend": "^6.1.0-rc01"
+  },
+  "peerDependencies": {
+    "react": "^16.13"
+  }
+}
