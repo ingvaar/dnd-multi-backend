@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const examplesConfig = require('./examples');
 
 const resolveAlias = {};
@@ -8,7 +8,7 @@ for (const pkg of ['dnd-multi-backend', 'react-dnd-multi-backend', 'react-dnd-pr
   resolveAlias[pkg] = path.resolve(__dirname, '..', 'packages', pkg, 'src');
 }
 
-module.exports = webpackMerge(examplesConfig, {
+module.exports = merge(examplesConfig, {
   devtool: 'cheap-module-eval-source-map',
   mode: 'development',
   devServer: {
