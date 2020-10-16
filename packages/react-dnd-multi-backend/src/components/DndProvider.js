@@ -6,12 +6,15 @@ import MultiBackend from 'dnd-multi-backend';
 export const PreviewPortalContext = React.createContext(null);
 
 export const DndProvider = (props) => {
-  const previewPortal = useRef();
+  const managedPreviewPortal = useRef();
+  const userPreviewPortal = props.previewPortalRef !== undefined;
+  const previewPortal = userPreviewPortal ? props.previewPortalRef.current : managedPreviewPortal.current;
+  console.log(userPreviewPortal, managedPreviewPortal, props.previewPortalRef, previewPortal); // eslint-disable-line no-console
 
   return (
-    <PreviewPortalContext.Provider value={previewPortal.current}>
+    <PreviewPortalContext.Provider value={previewPortal}>
       <ReactDndProvider backend={MultiBackend} {...props} />
-      <div ref={previewPortal} />
+      {userPreviewPortal ? null : <div ref={managedPreviewPortal} />}
     </PreviewPortalContext.Provider>
   );
 };
@@ -20,5 +23,6 @@ DndProvider.propTypes = {
   manager: PropTypes.any,
   context: PropTypes.any,
   options: PropTypes.any,
+  previewPortalRef: PropTypes.any,
   debugMode: PropTypes.bool,
 };

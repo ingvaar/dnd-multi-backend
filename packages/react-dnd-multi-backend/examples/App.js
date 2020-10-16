@@ -59,9 +59,11 @@ const getContent = (title, ref) => {
 
 const App = () => {
   const [useNew, setAPI] = useState(true);
+  const [useExternalPreview, setExternalPreview] = useState(false);
 
   const refOld = useRef();
   const refNew = useRef();
+  const externalPreview = useRef();
 
   const oldAPI = (
     <ReactDndProvider backend={MultiBackend} options={HTML5toTouch}>
@@ -70,7 +72,7 @@ const App = () => {
   );
 
   const newAPI = (
-    <DndProvider options={HTML5toTouch}>
+    <DndProvider options={HTML5toTouch} previewPortalRef={useExternalPreview ? externalPreview : undefined}>
       {getContent('New', refNew)}
     </DndProvider>
   );
@@ -80,6 +82,10 @@ const App = () => {
       <div>
         <input id="api_selector" type="checkbox" checked={useNew} onChange={(e) => setAPI(e.target.checked)} />
         <label htmlFor="api_selector">Use New API</label>
+      </div>
+      <div>
+        <input id="external_preview" type="checkbox" checked={useExternalPreview} onChange={(e) => setExternalPreview(e.target.checked)} />
+        <label htmlFor="external_preview">Use external preview</label>
       </div>
       {useNew ? newAPI : oldAPI}
     </React.StrictMode>
